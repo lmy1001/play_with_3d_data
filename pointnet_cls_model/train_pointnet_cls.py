@@ -25,10 +25,10 @@ parser.add_argument('--val_log_name', type=str, default='log/val_log',
                     help='File name of validation log event')
 
 parser.add_argument('--learn_rate', type=float, default=1e-3, help='Learning rate for Adam optimizer')
-parser.add_argument('--batch_size', type=int, default=64, help='input batch size')
-parser.add_argument('--npoints', type=int, default=1500, help='input batch size')
+parser.add_argument('--batch_size', type=int, default=128, help='input batch size')
+parser.add_argument('--npoints', type=int, default=2048, help='input batch size')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=4)
-parser.add_argument('--nepoch', type=int, default=50, help='number of epochs to train for')
+parser.add_argument('--nepoch', type=int, default=250, help='number of epochs to train for')
 parser.add_argument('--outf', type=str, default='cls', help='output folder')
 parser.add_argument('--model', type=str, default='', help='model path')
 parser.add_argument('--feature_transform', action='store_true', help="use feature transform")

@@ -27,10 +27,10 @@ parser.add_argument('--val_log_name', type=str, default='pointatlasnet/log/val_l
                     help='File name of validation log event')
 
 parser.add_argument('--learn_rate', type=float, default=1e-3, help='Learning rate for Adam optimizer')
-parser.add_argument('--batch_size', type=int, default=64, help='input batch size')
-parser.add_argument('--npoints', type=int, default=1000, help='input batch size')
+parser.add_argument('--batch_size', type=int, default=128, help='input batch size')
+parser.add_argument('--npoints', type=int, default=2048, help='input batch size')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=4)
-parser.add_argument('--nepoch', type=int, default=50, help='number of epochs to train for')
+parser.add_argument('--nepoch', type=int, default=250, help='number of epochs to train for')
 parser.add_argument('--outf', type=str, default='pointatlasnet/cls', help='output folder')
 parser.add_argument('--model', type=str, default='pointatlasnet/cls/cls_last_model_39.pth', help='model path')
 
@@ -119,10 +119,11 @@ scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=20, gamma=0.5)
 
 if args.model !='':
     ckpt = torch.load(args.model)
-    net.load_state_dict(ckpt, strict=True)
-    #start_epoch = ckpt['epoch']
+    net.load_state_dict(ckpt['model'], strict=True)
+    start_epoch = ckpt['epoch']
 else:
     start_epoch = 0
+
 device = torch.device('cuda: 0' if torch.cuda.is_available() else 'cpu')
 net = net.to(device)
 
@@ -204,7 +205,6 @@ for epoch in range(start_epoch, args.nepoch):
     if early_stopping.early_stop:
         break
 
-torch.save(net.state_dict(), epoch + 1,  '%s/cls_last_model_%d_1.pth' % (args.outf, epoch))
 torch.save(net, epoch + 1,  '%s/cls_last_model_%d.pth' % (args.outf, epoch))
 writer_train.close()
 writer_val.close()

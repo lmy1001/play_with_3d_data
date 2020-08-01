@@ -104,16 +104,7 @@ if __name__=="__main__":
     data = train_data[:5, :,:]
     all_pcls = plot_pc(data, mode, False)
 
-    current_data = train_data[0, :, :]
-    print(current_data.shape)
-    Voxels = voxelgrid.VoxelGrid(current_data, x_y_z=[32, 32, 32], bb_cuboid=True, build=True)
-    print('n_voxels: ', Voxels.n_voxels)
-    print('xyzmax: ', Voxels.xyzmax)
-    print('xyzmin: ', Voxels.xyzmin)
-    print(Voxels.shape)
     #process_voxel_input(all_pcls[0])
-    
-
     '''
     all_data_dir = os.path.join(data_dir, "full_dataset_vectors.h5")
     train_data, train_label, test_data, test_label = load_data_voxel(all_data_dir)

@@ -15,7 +15,7 @@ class Mnist3dDataset(data.Dataset):
         self.meta = {}
         if self.split == 'train':
             filename = os.path.join(self.root, "train_point_clouds.h5")
-            num = 2000
+            num = 5000
         else:
             filename = os.path.join(self.root, "test_point_clouds.h5")
             num = 1000

@@ -151,9 +151,10 @@ for epoch in range(args.nepoch):
             points = torch.from_numpy(points).float()
             points, target = points.to(device), target.to(device)
             cls = cls.eval()
-            pred, _, _ = cls(points)
-            val_loss = F.nll_loss(pred, target)
-            writer_val.add_scalar('loss', val_loss, step)
+            with torch.no_grad():
+                pred, _, _ = cls(points)
+                val_loss = F.nll_loss(pred, target)
+                writer_val.add_scalar('loss', val_loss, step)
 
             tot_val_loss = tot_val_loss + val_loss
             total_val_batch += 1
@@ -178,11 +179,12 @@ for epoch in range(args.nepoch):
             points = torch.from_numpy(points).float()
             points, target = points.to(device), target.to(device)
             cls = cls.eval()
-            pred, _, _ = cls(points)
-            pred_choice = pred.data.max(1)[1]
-            correct = pred_choice.eq(target.data).cpu().sum()
-            total_correct += correct.item()
-            total_testset += points.size()[0]
+            with torch.no_grad():
+                pred, _, _ = cls(points)
+                pred_choice = pred.data.max(1)[1]
+                correct = pred_choice.eq(target.data).cpu().sum()
+                total_correct += correct.item()
+                total_testset += points.size()[0]
         print("best accuracy {}".format(total_correct / float(total_testset)))
         break
 

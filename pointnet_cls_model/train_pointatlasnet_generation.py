@@ -165,7 +165,8 @@ for epoch in range(start_epoch, args.nepoch):
             points = torch.from_numpy(points).float()
             target = points
             net.eval()
-            gen = net(points)
+            with torch.no_grad():
+                gen = net(points)
 
             gen = torch.transpose(gen, 1, 2)
             target = torch.transpose(target, 1, 2)
@@ -187,7 +188,8 @@ for epoch in range(start_epoch, args.nepoch):
                     target = points
                     points, target = points.to(device), target.to(device)
                     net.eval()
-                    gen = net(points)
+                    with torch.no_grad():
+                        gen = net(points)
 
                     gen = torch.transpose(gen, 1, 2)
                     target = torch.transpose(target, 1, 2)
